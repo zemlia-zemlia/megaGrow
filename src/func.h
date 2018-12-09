@@ -1,5 +1,11 @@
 bool setTemper(byte _temperS);
 bool setDeltaT(byte _delta_t);
+bool setHumi(byte _humiS);
+bool setDeltaH(byte _delta_H);
+void radiatorSwap();
+void humiSwap();
+void ventInSwap();
+void pompaSwap();
 
 void buttonsCheck() {
   byte key = keyRead();
@@ -7,7 +13,7 @@ void buttonsCheck() {
     if (menu.currentScreen() == 7) { // temper setting
       temperS++;
       menu.update();
-    } 
+    }
     else if (menu.currentScreen() == 8) { // delta_T setting
       Serial.print(menu.currentScreen());
       delta_T++;
@@ -15,6 +21,11 @@ void buttonsCheck() {
     }
     else if (menu.currentScreen() == 9) { // humiS
       humiS++;
+
+      menu.update();
+    }
+    else if (menu.currentScreen() == 10) { // delta_H
+      delta_H++;
 
       menu.update();
     }
@@ -37,14 +48,18 @@ void buttonsCheck() {
      else if (menu.currentScreen() == 9) {
       humiS--;
       menu.update();
-    } 
+    }
+    else if (menu.currentScreen() == 10) {
+     delta_H--;
+     menu.update();
+   }
 
     else {
     }
     delay(debounc);
   }
   if (key == 4) { // up
-    if (menu.currentScreen() == 7 || menu.currentScreen() == 8 || menu.currentScreen() == 9) {
+    if (menu.currentScreen() == 7 || menu.currentScreen() == 8 || menu.currentScreen() == 9 || menu.currentScreen() == 10) {
       menu.change_screen(settingTemHumi_screen);
     } else
 
@@ -56,16 +71,24 @@ void buttonsCheck() {
       setTemper(temperS);
 
       menu.change_screen(settingTemHumi_screen);
-    } 
+    }
     else if (menu.currentScreen() == 8) { // temper setting
       setDeltaT(delta_T);
 
       menu.change_screen(settingTemHumi_screen);
-    }else if (menu.currentScreen() == 9) { // humi setting
-      setting.setHumi(humiS);
+    }
+    else if (menu.currentScreen() == 9) { // humi setting
+      setHumi(humiS);
 
       menu.change_screen(settingTemHumi_screen);
-    } else {
+    }
+    else if (menu.currentScreen() == 10) { // humi setting
+      setDeltaH(delta_H);
+
+      menu.change_screen(settingTemHumi_screen);
+    }
+
+     else {
 
       menu.call_function(1);
        // Serial.print(menu.currentScreen());
@@ -73,9 +96,7 @@ void buttonsCheck() {
     delay(debounc);
   }
   if (key == 3) { // down
-    if (menu.currentScreen() == 4) {
-
-    } else
+    if (menu.currentScreen() != 4)
       menu.next_screen();
 
     delay(debounc);
@@ -103,7 +124,11 @@ void funcSetTemp2() {
   menu.update();
 }
 void funcSetHumi1() {
-  menu.change_screen(humiSet_screen);
+  menu.change_screen(temperSet_screen2);
+  menu.update();
+}
+void funcSetHumi2() {
+  menu.change_screen(temperSet_screen3);
   menu.update();
 }
 
@@ -174,6 +199,10 @@ data = dataRadio;
     delta_T = data.delta_T;
     humiS = data.humiS;
     delta_H = data.delta_H;
+    Radiator = data.Radiator ? "ON" : "OFF";
+    Humi = data.Humi ? "ON" : "OFF";
+    VentIn = data.VentIn ? "ON" : "OFF";
+    Pompa = data.Pompa ? "ON" : "OFF";
 
   }
 }
@@ -184,7 +213,7 @@ val[0] = 2;
 val[1] = _temperS;
 Serial.println(val[1]);
 radioRequest(val);
-data.temperS = _temperS;
+temperS = data.temperS = _temperS;
 
     return true;
 
@@ -195,8 +224,56 @@ val[0] = 3;
 val[1] = _delta_t;
 Serial.println(val[1]);
 radioRequest(val);
-data.delta_T = _delta_t;
+delta_T = data.delta_T = _delta_t;
 
     return true;
 
+}
+
+bool setHumi(byte _humiS) {
+
+val[0] = 4;
+val[1] = _humiS;
+Serial.println(val[1]);
+radioRequest(val);
+humiS = data.humiS = _humiS;
+
+    return true;
+
+}
+bool setDeltaH(byte _delta_H) {
+
+val[0] = 5;
+val[1] = _delta_H;
+Serial.println(val[1]);
+radioRequest(val);
+delta_T = data.delta_H = _delta_H;
+
+    return true;
+
+}
+void radiatorSwap(){
+  val[0] = 6;
+  radioRequest(val);
+  data.Radiator = data.Radiator ? false : true;
+  Radiator = data.Radiator ? "ON" : "OFF";
+
+}
+void humiSwap(){
+  val[0] = 7;
+  radioRequest(val);
+  data.Humi = data.Humi ? false : true;
+  Humi = data.Humi ? "ON" : "OFF";
+}
+void ventInSwap(){
+  val[0] = 8;
+  radioRequest(val);
+  data.VentIn = data.VentIn ? false : true;
+  VentIn = data.VentIn ? "ON" : "OFF";
+}
+void pompaSwap(){
+  val[0] = 9;
+  radioRequest(val);
+  data.Pompa = data.Pompa ? false : true;
+  Pompa = data.Pompa ? "ON" : "OFF";
 }

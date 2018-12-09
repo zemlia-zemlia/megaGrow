@@ -18,27 +18,7 @@ struct Data{
 
 };
 
-struct Setting {
-  Setting(Data data);
-  byte temper = 0;
-  byte humi = 0;
-  Data data;
-  
-  
 
-
-  
-  bool setTemperDelta(byte _delta_T);
-  bool setHumi(byte _humi);
-  bool setHumiDelta(byte _delta_H);
-};
-
-struct Command {
-  static void radiatorSwap();
-  static void humiSwap();
-  static void ventInSwap();
-  static void pompaSwap();
-};
 
 
 
