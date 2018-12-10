@@ -15,7 +15,7 @@ void buttonsCheck() {
       menu.update();
     }
     else if (menu.currentScreen() == 8) { // delta_T setting
-      Serial.print(menu.currentScreen());
+      // Serial.print(menu.currentScreen());
       delta_T++;
       menu.update();
     }
@@ -172,24 +172,27 @@ void radioSetup() {
 }
 void resiveData() {
   Data dataRadio;
-  Serial.println("resiv");
+  //Serial.println("resiv");
   if (radio.available()) {
-    Serial.println("rAaa");
+    // Serial.println("rAaa");
     // проверяем не пришло ли чего в буфер.
     radio.read(
         &dataRadio,
         sizeof(dataRadio)); // читаем данные и указываем сколько байт читать
     delay(50);
-
+    Serial.print((millis() - time)/1000/60);
+    Serial.print(";");
     Serial.print(dataRadio.temper);
     Serial.print(";");
     Serial.print(dataRadio.humi);
     Serial.print(";");
-    Serial.print(dataRadio.temperS);
-    Serial.print(";");
-    Serial.print(dataRadio.humiS);
-    Serial.print(";");
+
+
     Serial.println(dataRadio.soil);
+
+
+
+
 data = dataRadio;
 
     temper = data.temper;
@@ -211,7 +214,7 @@ bool setTemper(byte _temperS) {
 
 val[0] = 2;
 val[1] = _temperS;
-Serial.println(val[1]);
+// Serial.println(val[1]);
 radioRequest(val);
 temperS = data.temperS = _temperS;
 
@@ -222,7 +225,7 @@ bool setDeltaT(byte _delta_t) {
 
 val[0] = 3;
 val[1] = _delta_t;
-Serial.println(val[1]);
+// Serial.println(val[1]);
 radioRequest(val);
 delta_T = data.delta_T = _delta_t;
 
@@ -234,7 +237,7 @@ bool setHumi(byte _humiS) {
 
 val[0] = 4;
 val[1] = _humiS;
-Serial.println(val[1]);
+// Serial.println(val[1]);
 radioRequest(val);
 humiS = data.humiS = _humiS;
 
@@ -245,7 +248,7 @@ bool setDeltaH(byte _delta_H) {
 
 val[0] = 5;
 val[1] = _delta_H;
-Serial.println(val[1]);
+// Serial.println(val[1]);
 radioRequest(val);
 delta_T = data.delta_H = _delta_H;
 

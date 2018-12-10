@@ -1,4 +1,5 @@
 
+#define BUZZER 26
 const byte LCD_RS = 8;
 const byte LCD_E = 9;
 const byte LCD_D4 = 4;
@@ -17,7 +18,7 @@ Data data;
 
 byte val[2];
 
-
+unsigned long time;
 float temper = data.temper;
 float humi = data.humi;
 byte soil = data.soil;
@@ -31,7 +32,7 @@ char* VentIn = data.VentIn ? "ON" : "OFF";
 char* Pompa = data.Pompa ? "ON" : "OFF";
 LiquidCrystal lcd(LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
 unsigned long starttime = 0;
-unsigned long Period = 30000;
+unsigned long Period = 60000;
 int debounc = 500;
 
 byte keyRead();

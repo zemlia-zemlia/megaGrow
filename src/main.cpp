@@ -9,7 +9,11 @@
 
 
 void setup() {
+  time = millis();
   Serial.begin(9600);
+  pinMode(BUZZER, OUTPUT);
+  digitalWrite(BUZZER, 1);
+
 
   lcd.begin(16, 2);
 
@@ -18,8 +22,7 @@ void setup() {
   val[0] = 1;
   radioRequest(val);
 delay(50);
-  resiveData();
-
+  
 
   settingTemHumi_screen.set_focusPosition(Position::LEFT);
   humiRadiatirState_screen.set_focusPosition(Position::LEFT);
@@ -66,10 +69,14 @@ delay(50);
 }
 
 void loop() {
+if (data.Pompa == true) digitalWrite(BUZZER, 0);
+
+else digitalWrite(BUZZER, 1);
 
   if (starttime == 0){
     starttime = millis();
 resiveData();
+menu.update();
   }
   if (millis() - Period >= starttime && millis() > Period) {
     val[0] = 1;
