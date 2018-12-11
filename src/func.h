@@ -180,20 +180,30 @@ void resiveData() {
         &dataRadio,
         sizeof(dataRadio)); // читаем данные и указываем сколько байт читать
     delay(50);
-    Serial.print((millis() - time)/1000/60);
-    Serial.print(";");
-    Serial.print(dataRadio.temper);
-    Serial.print(";");
-    Serial.print(dataRadio.humi);
-    Serial.print(";");
+    Serial.print("$");
+    // Serial.print((millis() - time)/100);
 
+    Serial.print((int)dataRadio.temper);
+    Serial.print(" ");
+    // Serial.print(";");
+    // Serial.print(";");
+    Serial.print((int)dataRadio.humi);
+    Serial.print(" ");
 
-    Serial.println(dataRadio.soil);
+    // Serial.print(";");
+    //
+    //
+    // Serial.println(dataRadio.soil);
 
 
 
 
 data = dataRadio;
+
+
+Serial.print(data.Humi*100);
+Serial.println(";");
+
 
     temper = data.temper;
     humi = data.humi;

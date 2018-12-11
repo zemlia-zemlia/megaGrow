@@ -32,7 +32,7 @@ char* VentIn = data.VentIn ? "ON" : "OFF";
 char* Pompa = data.Pompa ? "ON" : "OFF";
 LiquidCrystal lcd(LCD_RS, LCD_E, LCD_D4, LCD_D5, LCD_D6, LCD_D7);
 unsigned long starttime = 0;
-unsigned long Period = 60000;
+unsigned long Period = 1000;
 int debounc = 500;
 
 byte keyRead();

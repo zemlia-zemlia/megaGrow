@@ -22,7 +22,7 @@ void setup() {
   val[0] = 1;
   radioRequest(val);
 delay(50);
-  
+
 
   settingTemHumi_screen.set_focusPosition(Position::LEFT);
   humiRadiatirState_screen.set_focusPosition(Position::LEFT);
@@ -78,7 +78,7 @@ else digitalWrite(BUZZER, 1);
 resiveData();
 menu.update();
   }
-  if (millis() - Period >= starttime && millis() > Period) {
+  if (millis() > starttime + Period) {
     val[0] = 1;
    radioRequest(val);
 
